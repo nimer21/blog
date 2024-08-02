@@ -29,9 +29,23 @@ module.exports.createPostCtrl = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: error.details[0].message });
   }
   // 3. Upload photo
+  // // This can also be a remote URL or a base64 DataURI
   const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+  console.log("req.file :  ",req.file); // 
+  /**
+   * req.file :   {
+  fieldname: 'image',
+  originalname: '00201092583606 Abdala Elraik.jpg',
+  encoding: '7bit',
+  mimetype: 'image/jpeg',
+  destination: 'C:\\2024.03.21\\Web\\DONE\\Youssef Abbas\\blog-pro\\backend\\images',
+  filename: '2024-08-02T15-00-17.829Z00201092583606 Abdala Elraik.jpg',
+  path: 'C:\\2024.03.21\\Web\\DONE\\Youssef Abbas\\blog-pro\\backend\\images\\2024-08-02T15-00-17.829Z00201092583606 Abdala Elraik.jpg',
+  size: 83518
+}
+   */
   // Upload to cloudinary
-  const result = await cloudinaryUploadImage(imagePath);
+  const result = await cloudinaryUploadImage(req.file.path); // imagePath
 
   // 4. Create new post and save it to DB
   const post = await Post.create({
