@@ -48,7 +48,7 @@ app.use(limiter);
 
 // Cors policy
 app.use(cors({
-origin: "http://localhost:3000"
+origin: process.env.CLIENT_DOMAIN // "http://localhost:3000"
 }));
 
 // Routes
